@@ -1,19 +1,25 @@
 # Experiment Rigor Checklist
 
-## v2 Synthetic Rigor
+## v4 Local Empirical Rigor
+- [x] Plan written before execution.
+- [x] Implemented paper-specific benchmark.
 - [x] Multiple seeds.
-- [x] Error bars.
-- [x] Stronger synthetic baselines.
+- [x] Error bars over seed-level means.
+- [x] Strong local baselines.
+- [x] Paired comparisons.
 - [x] Ablations.
 - [x] Stress tests.
 - [x] Negative cases.
+- [x] Probe cost and damage metrics.
+- [x] Paper-specific figures.
 
-## ICLR Main Bar
-- [ ] Real-robot validation.
-- [ ] High-fidelity simulator benchmark.
-- [ ] Implemented learned model.
-- [ ] Implemented real competing baselines.
-- [ ] Manual related-work synthesis.
-- [ ] Paper-specific qualitative figures.
+## ICLR Main Bar Still Missing
+- [ ] Real tactile hardware validation.
+- [ ] Real robot validation.
+- [ ] Recognized high-fidelity tactile simulator benchmark.
+- [ ] External tactile-language-action baselines.
+- [ ] Manual full-paper related-work synthesis.
+- [ ] Qualitative real rollout/probe traces.
 
-Decision: fail ICLR main empirical-rigor gate; archive.
+Decision: pass the local rebuild gate as `STRONG_REVISE`; fail final ICLR-main readiness until external evidence is added.
+

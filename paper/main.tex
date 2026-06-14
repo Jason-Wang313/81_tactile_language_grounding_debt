@@ -4,42 +4,130 @@
 \usepackage{hyperref}
 \usepackage{url}
 \usepackage{booktabs}
-\title{Tactile-Language Grounding Debt: ICLR Main-Conference Gate Archive}
+\usepackage{graphicx}
+\title{Tactile-Language Grounding Debt in Robot Manipulation}
 \author{Anonymous Authors}
 \begin{document}
 \maketitle
+
 \begin{abstract}
-This document is not an ICLR main-conference submission. It is the v3 main-conference gate for a generated robotics draft about tactile-language-action models. The original research bet was: Measure what language-conditioned policies fail to ground until touch resolves it. After a stricter hostile review, the honest terminal decision is \textbf{KILL/ARCHIVE}. Submission-hardening version: v3.
+Language-conditioned robot policies can act confidently while important physical facts remain ungrounded until touch resolves them. We rebuild a generated tactile-language-action idea into a local benchmark that measures this \emph{grounding debt}. Each episode contains an instruction, visual object evidence, hidden tactile/material facts, optional tactile probes, and a robot action target. The benchmark stresses language aliasing, visual counterfactuals, tactile noise, material novelty, and safety-critical manipulation. Across seven seeds, the proposed \texttt{grounding\_debt\_planner} reaches $0.595 \pm 0.044$ task success on the decisive \texttt{combined\_hard\_shift} split, compared with $0.506 \pm 0.029$ for passive tactile classification, $0.432 \pm 0.056$ for greedy active touch, and $0.304 \pm 0.034$ for an all-channel tactile policy that over-probes fragile objects. The proposed planner also reduces damage to $0.173$ versus $0.551$ for all-channel tactile probing, at much lower probe cost. The result is promising but not ICLR-main-ready because it is a generated local benchmark, not real tactile hardware or a recognized high-fidelity tactile simulator. We mark the artifact \textbf{STRONG REVISE}.
 \end{abstract}
 
-\section{Gate Decision}
-The v2 paper was workshop-only. Under the active ICLR-main standard, that is insufficient. The local artifacts contain synthetic multi-seed diagnostics, but no real-robot validation, high-fidelity simulator benchmark, trained world-action model, implemented real baselines, or manual full-paper related-work synthesis. These missing items are not recoverable by editing text or rerunning the synthetic script.
+\section{Decision}
+This document is the v4 ICLR-main gate for Paper 81, \emph{Tactile-Language Grounding Debt}. The v3 version was killed because it only contained template probability diagnostics. The v4 rebuild adds a paper-specific tactile-language benchmark, implemented baselines, ablations, stress sweeps, negative cases, figures, and reproducibility artifacts.
 
-\section{Fatal ICLR-Main Blockers}
+The terminal recommendation is \textbf{STRONG REVISE}. The mechanism is locally supported, but the evidence is not sufficient for ICLR main without real tactile data or external benchmark validation.
+
+\section{Hypothesis}
+Grounding debt is the action-relevant uncertainty left after language and vision have made a policy appear grounded. A robot can repay this debt by selecting tactile probes that target the missing physical facts needed for safe action. The claim is not that touch always helps. Unselective touch can damage objects or waste budget; the claim is that debt-aware touch should improve the success/damage/cost tradeoff.
+
+\section{Benchmark}
+The benchmark generates tasks such as \texttt{pick}, \texttt{pour}, \texttt{open}, \texttt{handoff}, \texttt{slide}, and \texttt{insert}. Hidden tactile facts include fragility, slipperiness, mass, fill level, compliance, and latch state. Language and vision provide noisy or counterfactual probabilities over these facts. Tactile probes can reveal facts but carry cost and damage risk.
+
+Evaluation splits are \texttt{seen\_clean}, \texttt{language\_alias\_shift}, \texttt{visual\_counterfactual}, \texttt{tactile\_necessary\_ambiguity}, and \texttt{combined\_hard\_shift}. The full run contains 13,440 main rollout rows, 2,352 ablation rollout rows, and 31,500 stress-sweep rows. Intervals are 95 percent confidence intervals over seven seed-level means.
+
+\section{Methods}
+The implemented methods are:
 \begin{itemize}
-\item Evidence is synthetic and generated from a shared batch template.
-\item Baselines are diagnostic probability models, not implemented competing robot systems.
-\item Ablations do not correspond to a trained model checkpoint.
-\item No hardware, high-fidelity benchmark, qualitative rollouts, or failure videos are available.
-\item Related work is based on pool slices and hostile metadata, not a manual full-paper synthesis.
-\item Claims would be misleading if framed as ICLR-main empirical robotics evidence.
+\item \texttt{language\_prior\_policy}: acts from instruction priors only.
+\item \texttt{vision\_language\_policy}: combines language and visual object evidence without touch.
+\item \texttt{uncertainty\_threshold\_policy}: takes conservative actions when language/vision are unresolved.
+\item \texttt{passive\_tactile\_classifier}: receives a fixed tactile reading before acting.
+\item \texttt{greedy\_active\_touch}: probes the most uncertain tactile facts without task-specific debt.
+\item \texttt{strong\_tactile\_then\_policy}: probes all tactile channels, gaining fact accuracy but risking invasive contact.
+\item \texttt{grounding\_debt\_planner}: proposed method estimating task-relevant grounding debt, selecting targeted probes, updating tactile beliefs, and applying a safety-aware action policy.
+\item \texttt{oracle\_tactile\_upper\_bound}: upper bound using true hidden facts.
 \end{itemize}
 
-\section{Hostile Prior-Work Pressure}
-The closest local hostile records include:
-\begin{itemize}
-\item LINGO-Space: Language-Conditioned Incremental Grounding for Space (2024)
-\item Negative Object Presence Evaluation (NOPE) to Measure Object Hallucination in Vision-Language Models (2024)
-\item SayNav: Grounding Large Language Models for Dynamic Planning to Navigation in New Environments (2024)
-\item DRAGON: A Dialogue-Based Robot for Assistive Navigation with Visual Language Grounding (2023)
-\item When Vision Overrides Language: Evaluating and Mitigating Counterfactual Failures in VLAs (2026)
-\end{itemize}
-These works make generic world models, uncertainty, model-based planning, and robot policy robustness crowded. Without real empirical evidence, the remaining novelty boundary is too weak for ICLR main.
+\section{Main Results}
+Table~\ref{tab:main} shows the decisive combined hard-shift split. The proposed method has the best non-oracle task success and a much better damage/cost tradeoff than all-channel tactile probing.
 
-\section{What Remains Useful}
-The archive is still useful as an idea seed and reproducibility scaffold. The synthetic code, stress-test CSVs, reviewer attacks, and novelty-boundary docs can inform a future project. The correct next step is not more paper polishing; it is new evidence: implemented models, real baselines, manual related work, and robot or high-fidelity simulator validation.
+\begin{table}[h]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lcccc}
+\toprule
+Method & Success & Damage & Probe cost & Fact acc. \\
+\midrule
+\texttt{language\_prior\_policy} & $0.470 \pm 0.060$ & $0.286$ & $0.000$ & $0.824$ \\
+\texttt{vision\_language\_policy} & $0.402 \pm 0.028$ & $0.286$ & $0.000$ & $0.671$ \\
+\texttt{uncertainty\_threshold\_policy} & $0.348 \pm 0.053$ & $0.137$ & $0.000$ & $0.671$ \\
+\texttt{passive\_tactile\_classifier} & $0.506 \pm 0.029$ & $0.235$ & $0.240$ & $0.784$ \\
+\texttt{greedy\_active\_touch} & $0.432 \pm 0.056$ & $0.348$ & $0.262$ & $0.799$ \\
+\texttt{strong\_tactile\_then\_policy} & $0.304 \pm 0.034$ & $0.551$ & $0.790$ & $\mathbf{0.894}$ \\
+\texttt{grounding\_debt\_planner} & $\mathbf{0.595 \pm 0.044}$ & $0.173$ & $0.227$ & $0.875$ \\
+\texttt{oracle\_tactile\_upper\_bound} & $1.000 \pm 0.000$ & $0.000$ & $0.000$ & $1.000$ \\
+\bottomrule
+\end{tabular}
+\caption{\texttt{combined\_hard\_shift} results. Strong tactile probing has high fact accuracy but damages objects by probing too broadly.}
+\label{tab:main}
+\end{table}
 
-\section{Terminal Action}
-Decision: \textbf{KILL/ARCHIVE for ICLR main}. Do not submit this paper to ICLR main in the current form. Revival requires a substantially new empirical project.
+The paired success gain over \texttt{strong\_tactile\_then\_policy} is $0.292 \pm 0.037$. The result supports the debt-aware probing mechanism, but also shows a large oracle gap.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.95\linewidth]{../figures/grounding_debt_success.png}
+\caption{Combined hard-shift task success.}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.95\linewidth]{../figures/grounding_debt_damage_cost.png}
+\caption{Damage and probe cost. Touch-everything has high fact accuracy but poor safety and cost.}
+\end{figure}
+
+\section{Ablations}
+Table~\ref{tab:ablations} shows that tactile belief update, active probe selection, debt estimation, safety gating, and probe-cost regularization all matter. Removing conflict detection is nearly neutral, so the paper should not overclaim that component.
+
+\begin{table}[h]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lcccc}
+\toprule
+Ablation & Success & Damage & Probe cost & Fact acc. \\
+\midrule
+Full method & $0.595 \pm 0.044$ & $0.173$ & $0.227$ & $0.875$ \\
+Minus debt estimator & $0.530 \pm 0.042$ & $0.199$ & $0.247$ & $0.797$ \\
+Minus active probe selection & $0.527 \pm 0.032$ & $0.190$ & $0.240$ & $0.793$ \\
+Minus tactile belief update & $0.417 \pm 0.030$ & $0.253$ & $0.227$ & $0.671$ \\
+Minus language/vision conflict & $0.589 \pm 0.038$ & $0.176$ & $0.220$ & $0.855$ \\
+Minus safety gate & $0.562 \pm 0.040$ & $0.244$ & $0.231$ & $0.875$ \\
+Minus probe-cost regularizer & $0.562 \pm 0.039$ & $0.244$ & $0.348$ & $0.912$ \\
+\bottomrule
+\end{tabular}
+\caption{Ablations on \texttt{combined\_hard\_shift}.}
+\label{tab:ablations}
+\end{table}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.95\linewidth]{../figures/grounding_debt_ablation.png}
+\caption{Grounding-debt ablations.}
+\end{figure}
+
+\section{Stress Tests}
+At maximum combined stress, the proposed planner reaches $0.400 \pm 0.045$ success, compared with $0.300 \pm 0.068$ for vision-language, $0.271 \pm 0.026$ for greedy active touch, and $0.167 \pm 0.040$ for all-channel tactile probing.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.95\linewidth]{../figures/grounding_debt_stress_sweep.png}
+\caption{Combined language/vision/tactile/material stress sweep.}
+\end{figure}
+
+\section{Related Work Pressure}
+The closest hostile work includes language-conditioned grounding, object hallucination evaluation, embodied navigation grounding, VLA failure analysis, and language-conditioned robotic imitation \citep{prior1,prior2,prior3,prior4,prior5,prior6,prior8}. A publishable main-conference version must show the proposed debt estimate improves real tactile-language robot policies, not only generated local manipulation episodes.
+
+\section{Limitations}
+This rebuild has no real tactile sensor traces, robot hardware, learned visual-language-tactile encoder, or external benchmark. The all-channel tactile baseline is intentionally penalized for invasive probing; a real robot might use gentler sensing hardware. The conflict-detector ablation is nearly neutral, and calibration is not best-in-class. These limitations keep the correct decision at STRONG REVISE rather than submission-ready.
+
+\section{Conclusion}
+Paper 81 now has a concrete local empirical story: measuring and selectively repaying tactile-language grounding debt improves task success while avoiding the damage and cost of indiscriminate probing. The artifact should continue as \textbf{STRONG REVISE}, with real tactile validation required before ICLR-main submission.
+
+\bibliographystyle{iclr2026_conference}
+\bibliography{references}
 
 \end{document}
