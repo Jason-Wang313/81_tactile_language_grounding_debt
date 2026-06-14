@@ -1,4 +1,17 @@
-case,expected_behavior,observed_success,lesson
-unmodeled_hardware_damage,planner abstains or requests human inspection,0.18,branch semantics cannot repair missing actuation
-semantic_goal_ambiguity,diagnostic physical probes do not solve language ambiguity,0.31,needs a separate instruction-grounding loop
-adversarial_sensor_dropout,tail-risk objective becomes conservative,0.39,sensor-health modeling is out of scope
+split,seed,episode_id,method,task,object_family,failure_label,probes,probe_cost,fact_accuracy,lesson
+seen_clean,0,3,strong_tactile_then_policy,handoff,ceramic_tool,damage_or_probe_damage,fragile;slippery;heavy;full;soft;locked,0.79000,1.00000,grounding can fail before action when tactile probing is too invasive
+seen_clean,0,5,greedy_active_touch,insert,rigid_insert,damage_or_probe_damage,locked;full,0.32000,1.00000,grounding can fail before action when tactile probing is too invasive
+seen_clean,0,5,strong_tactile_then_policy,insert,rigid_insert,damage_or_probe_damage,fragile;slippery;heavy;full;soft;locked,0.79000,1.00000,grounding can fail before action when tactile probing is too invasive
+seen_clean,0,9,greedy_active_touch,handoff,dense_block,damage_or_probe_damage,locked;full,0.32000,1.00000,grounding can fail before action when tactile probing is too invasive
+seen_clean,0,10,strong_tactile_then_policy,slide,thin_shell,damage_or_probe_damage,fragile;slippery;heavy;full;soft;locked,0.79000,1.00000,grounding can fail before action when tactile probing is too invasive
+seen_clean,0,11,language_prior_policy,insert,foam_insert,damage_or_probe_damage,none,0.00000,1.00000,grounding can fail before action when tactile probing is too invasive
+seen_clean,0,12,language_prior_policy,pick,polished_cylinder,slip_or_drop,none,0.00000,1.00000,language and vision under-estimated grip or support needs
+seen_clean,0,13,greedy_active_touch,pour,empty_cup,damage_or_probe_damage,soft;locked,0.28000,1.00000,grounding can fail before action when tactile probing is too invasive
+seen_clean,0,13,strong_tactile_then_policy,pour,empty_cup,damage_or_probe_damage,fragile;slippery;heavy;full;soft;locked,0.79000,1.00000,grounding can fail before action when tactile probing is too invasive
+seen_clean,0,14,uncertainty_threshold_policy,open,loose_lid_box,wrong_action_parameter,none,0.00000,1.00000,hidden tactile facts were not resolved enough to set action parameters
+seen_clean,0,17,grounding_debt_planner,insert,rigid_insert,slip_or_drop,fragile;slippery,0.18000,1.00000,language and vision under-estimated grip or support needs
+seen_clean,0,22,greedy_active_touch,slide,thin_shell,damage_or_probe_damage,heavy;full,0.33000,1.00000,grounding can fail before action when tactile probing is too invasive
+seen_clean,0,24,greedy_active_touch,pick,ceramic_tool,damage_or_probe_damage,soft;full,0.30000,1.00000,grounding can fail before action when tactile probing is too invasive
+seen_clean,0,24,strong_tactile_then_policy,pick,ceramic_tool,damage_or_probe_damage,fragile;slippery;heavy;full;soft;locked,0.79000,1.00000,grounding can fail before action when tactile probing is too invasive
+seen_clean,0,25,language_prior_policy,pour,opaque_cup,damage_or_probe_damage,none,0.00000,1.00000,grounding can fail before action when tactile probing is too invasive
+seen_clean,0,27,language_prior_policy,handoff,thin_shell,damage_or_probe_damage,none,0.00000,1.00000,grounding can fail before action when tactile probing is too invasive
