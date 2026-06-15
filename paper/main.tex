@@ -43,7 +43,7 @@ The implemented methods are:
 \section{Main Results}
 Table~\ref{tab:main} shows the decisive combined hard-shift split. The proposed method has the best non-oracle task success and a much better damage/cost tradeoff than all-channel tactile probing.
 
-\begin{table}[h]
+\begin{table}[tbp]
 \centering
 \scriptsize
 \setlength{\tabcolsep}{4pt}
@@ -67,13 +67,13 @@ Method & Success & Damage & Probe cost & Fact acc. \\
 
 The paired success gain over \texttt{strong\_tactile\_then\_policy} is $0.292 \pm 0.037$. The result supports the debt-aware probing mechanism, but also shows a large oracle gap.
 
-\begin{figure}[h]
+\begin{figure}[tbp]
 \centering
 \includegraphics[width=0.95\linewidth]{../figures/grounding_debt_success.png}
 \caption{Combined hard-shift task success.}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[tbp]
 \centering
 \includegraphics[width=0.95\linewidth]{../figures/grounding_debt_damage_cost.png}
 \caption{Damage and probe cost. Touch-everything has high fact accuracy but poor safety and cost.}
@@ -82,7 +82,7 @@ The paired success gain over \texttt{strong\_tactile\_then\_policy} is $0.292 \p
 \section{Ablations}
 Table~\ref{tab:ablations} shows that tactile belief update, active probe selection, debt estimation, safety gating, and probe-cost regularization all matter. Removing conflict detection is nearly neutral, so the paper should not overclaim that component.
 
-\begin{table}[h]
+\begin{table}[tbp]
 \centering
 \scriptsize
 \setlength{\tabcolsep}{4pt}
@@ -103,7 +103,7 @@ Minus probe-cost regularizer & $0.562 \pm 0.039$ & $0.244$ & $0.348$ & $0.912$ \
 \label{tab:ablations}
 \end{table}
 
-\begin{figure}[h]
+\begin{figure}[tbp]
 \centering
 \includegraphics[width=0.95\linewidth]{../figures/grounding_debt_ablation.png}
 \caption{Grounding-debt ablations.}
@@ -112,7 +112,7 @@ Minus probe-cost regularizer & $0.562 \pm 0.039$ & $0.244$ & $0.348$ & $0.912$ \
 \section{Stress Tests}
 At maximum combined stress, the proposed planner reaches $0.400 \pm 0.045$ success, compared with $0.300 \pm 0.068$ for vision-language, $0.271 \pm 0.026$ for greedy active touch, and $0.167 \pm 0.040$ for all-channel tactile probing.
 
-\begin{figure}[h]
+\begin{figure}[tbp]
 \centering
 \includegraphics[width=0.95\linewidth]{../figures/grounding_debt_stress_sweep.png}
 \caption{Combined language/vision/tactile/material stress sweep.}

@@ -192,3 +192,10 @@ Attack: No meaningful recoverable ICLR-main issue remains after archiving.
 Verdict: Terminal condition reached.
 
 Action: Mark KILL_ARCHIVE and stop.
+
+## 2026-06-15 Continuation Gate
+Attack: The v4 STRONG_REVISE decision may be stale unless the full tactile-language benchmark, CSVs, PDF, and public artifact state are rechecked.
+
+Verdict: Rechecked. STRONG_REVISE remains the correct terminal state.
+
+Action: Keep STRONG_REVISE, not ICLR-main-ready. The full benchmark rerun regenerated 13,440 main rollouts, 2,352 ablation rollouts, and 31,500 stress rollouts. `grounding_debt_planner` beats `strong_tactile_then_policy` on `combined_hard_shift` success, 0.59524 +/- 0.04352 versus 0.30357 +/- 0.03435, with paired gain 0.29167 +/- 0.03674 and 7/7 better seeds. The decision cannot be upgraded because the evidence is generated local tactile-language data rather than real tactile hardware, robot rollouts, or a recognized high-fidelity tactile benchmark.
