@@ -12,3 +12,12 @@ Honest terminal action: keep as `STRONG_REVISE`; do not submit to ICLR main with
 
 Revival condition: validate grounding-debt estimation on real tactile-language manipulation data or a recognized tactile simulator, add external baselines, and rewrite as a full empirical submission.
 
+## 2026-06-15 Continuation Decision
+
+Decision: STRONG_REVISE.
+
+ICLR main-conference readiness: NO.
+
+Reason: the full deterministic benchmark was rerun and the positive local evidence reproduces. On `combined_hard_shift`, `grounding_debt_planner` reaches 0.59524 +/- 0.04352 success versus 0.30357 +/- 0.03435 for `strong_tactile_then_policy`, with paired gain 0.29167 +/- 0.03674 and 7/7 better seeds. The method also reduces damage from 0.55059 to 0.17262 and probe cost from 0.79000 to 0.22660 compared with strong tactile probing.
+
+Blocker: the evidence is still generated local tactile-language data with no real tactile sensor traces, robot hardware validation, recognized high-fidelity tactile benchmark, or external tactile-language-action baseline. This blocks ICLR-main readiness even though the local mechanism is promising.

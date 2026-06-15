@@ -24,3 +24,11 @@
 - Produced figures, paired statistics, ablations, stress sweeps, and negative cases.
 - Terminal decision: STRONG_REVISE.
 
+## v4 Continuation Audit - 2026-06-15
+
+- Added `docs/paper81_iclr_submission_execution_plan_20260615.md` before rerunning the evidence gate.
+- Recompiled and reran the full deterministic tactile-language benchmark without reducing seeds, baselines, ablations, stress levels, or row counts.
+- Rechecked CSV integrity, seed/method/split/ablation/stress coverage, paired statistics, damage/probe-cost tradeoffs, ablations, stress behavior, PDF logs, Downloads-only placement, Desktop exclusion, and public GitHub status.
+- Cleaned BibTeX placeholder entries by adding explicit authors and changed fragile `[h]` floats to `[tbp]` before rebuilding the PDF.
+- Verified `C:/Users/wangz/Downloads/81.pdf` SHA256 `38A15AD79C700B29B5665633E68741EB534F52C9BF5FF8BC154A0E5135040D3A`.
+- Terminal decision remains: STRONG_REVISE.
